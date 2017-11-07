@@ -1,0 +1,52 @@
+modelVersion: 4.0.0
+
+parent:
+  groupId:    nz.co.aetheric.parent
+  artifactId: maven-parent-global
+  version:    0.1.0
+
+groupId:      com.github.tzrlk
+artifactId:   maven-extension-credentials
+version:      0.0.1-SNAPSHOT
+
+name:        Maven Extension: Credentials
+description: A credential manager extension for maven.
+
+properties:
+  project.build.sourceEncoding: UTF-8
+
+  # Common path properties.
+  path.generated: ${project.build.directory}/generated-sources
+
+  kotlin.compiler.incremental:     true
+  kotlin.compiler.jvmTarget:       1.8
+  kotlin.compiler.apiVersion:      1.1
+  kotlin.compiler.languageVersion: 1.1
+
+dependencies:
+
+  - &kotlin { groupId: org.jetbrains.kotlin, artifactId: kotlin-stdlib-jre8, version: 1.1.51 }
+
+  - &testkt { <<: *kotlin, scope: test, artifactId: kotlin-test }
+  -         { <<: *testkt, artifactId: kotlin-reflect }
+
+build:
+  sourceDirectory: ${project.basedir}/src/main/kotlin
+  testSourceDirectory: ${project.basedir}/src/test/kotlin
+
+  plugins:
+
+    - groupId:    org.apache.maven
+      artifactId: maven-compiler-plugin
+      executions:
+        - { id: default-compile,     phase: none }
+        - { id: default-testCompile, phase: none }
+        - { id: java-compile,        phase: none }
+        - { id: java-test-compile,   phase: none }
+
+    - <<:         *kotlin
+      artifactId: kotlin-maven-plugin
+      executions:
+        - { phase: compile,      goals: [ compile ] }
+        - { phase: test-compile, goals: [ test-compile ] }
+
