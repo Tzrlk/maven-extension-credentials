@@ -15,7 +15,7 @@ In your `.mvn/extensions.xml` file:
 	<extension>
 		<groupId>com.github.tzrlk</groupId>
 		<artifactId>maven-extension-credentials</artifactId>
-		<version>0.0.1</version>
+		<version>0.1.0</version>
 	</extension>
 
 </extensions>

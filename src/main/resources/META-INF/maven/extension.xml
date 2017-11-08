@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension>
+
+	<exportedPackages>
+		<exportedPackage>nz.co.aetheric</exportedPackage>
+		<exportedPackage>nz.co.aetheric.maven.extension.credentials</exportedPackage>
+	</exportedPackages>
+
+	<exportedArtifacts>
+		<exportedArtifact>org.cfg4j:cfg4j-core</exportedArtifact>
+	</exportedArtifacts>
+
+</extension>
+

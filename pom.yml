@@ -3,13 +3,13 @@ modelVersion: 4.0.0
 parent:
   groupId:    nz.co.aetheric.parent
   artifactId: maven-parent-global
-  version:    0.1.0
+  version:    1.1.0
 
 groupId:      com.github.tzrlk
 artifactId:   maven-extension-credentials
 version:      0.0.1-SNAPSHOT
 
-name:        Maven Extension: Credentials
+name:        'Maven Extension: Credentials'
 description: A credential manager extension for maven.
 
 properties:
@@ -23,9 +23,24 @@ properties:
   kotlin.compiler.apiVersion:      1.1
   kotlin.compiler.languageVersion: 1.1
 
+dependencyManagement:
+  dependencies:
+    - &maven
+      scope:      import
+      groupId:    org.apache.maven
+      artifactId: maven
+      version:    3.5.0
+      type:       pom
+
 dependencies:
 
   - &kotlin { groupId: org.jetbrains.kotlin, artifactId: kotlin-stdlib-jre8, version: 1.1.51 }
+
+  - { scope: provided, groupId: org.apache.maven, artifactId: maven-core }
+  - { scope: provided, groupId: org.eclipse.sisu, artifactId: org.eclipse.sisu.plexus }
+  - { scope: provided, groupId: org.slf4j,        artifactId: slf4j-api }
+
+  - { groupId: org.cfg4j, artifactId: cfg4j-core, version: 4.4.1 }
 
   - &testkt { <<: *kotlin, scope: test, artifactId: kotlin-test }
   -         { <<: *testkt, artifactId: kotlin-reflect }
@@ -36,8 +51,15 @@ build:
 
   plugins:
 
-    - groupId:    org.apache.maven
+    - groupId:    org.codehaus.plexus
+      artifactId: plexus-component-metadata
+      version:    1.7.1
+      executions:
+        - { goals: [ generate-metadata, generate-test-metadata ] }
+
+    - groupId:    org.apache.maven.plugins
       artifactId: maven-compiler-plugin
+      version:    3.7.0
       executions:
         - { id: default-compile,     phase: none }
         - { id: default-testCompile, phase: none }
@@ -47,6 +69,6 @@ build:
     - <<:         *kotlin
       artifactId: kotlin-maven-plugin
       executions:
-        - { phase: compile,      goals: [ compile ] }
-        - { phase: test-compile, goals: [ test-compile ] }
+        - { id: kotlin-compile,      phase: compile,      goals: [ compile ] }
+        - { id: kotlin-test-compile, phase: test-compile, goals: [ test-compile ] }
 
