@@ -1,0 +1,5 @@
+jdk: [ oraclejdk8 ]
+
+# Since jitpack doesn't have the latest maven, translate the yaml pom back into xml.
+before_install:
+  - mvn io.takari.polyglot:polyglot-translate-plugin -Dinput=pom.yml -Doutput=pom.xml
